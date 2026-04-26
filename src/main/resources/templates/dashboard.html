@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMS - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <nav class="bg-blue-800 p-4 text-white flex justify-between items-center shadow-md">
+        <div class="flex items-center space-x-8">
+            <div class="text-xl font-bold border-r border-blue-600 pr-6">Airtel IMS</div>
+            <a th:href="@{/dashboard}" class="text-blue-200 font-bold border-b-2 border-blue-200">Equipment</a>
+            <a th:href="@{/reports}" class="hover:text-blue-200 font-medium transition">Reports</a>
+            <a th:href="@{/users}" class="hover:text-blue-200 font-medium transition">Admin Panel</a>
+        </div>
+        <div>
+            <a th:href="@{/login}" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm font-bold shadow transition">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-8 p-4">
+        
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Equipment Inventory</h2>
+            
+            <form th:action="@{/dashboard}" method="get" class="flex space-x-2">
+                <input type="text" name="keyword" th:value="${keyword}" placeholder="Search serial, brand, status..." 
+                       class="border border-gray-300 rounded px-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Search</button>
+                <a th:href="@{/dashboard}" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 transition">Clear</a>
+            </form>
+
+            <a th:href="@{/equipment/add}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition">
+                + Add New Equipment
+            </a>
+        </div>
+
+        <div class="bg-white shadow-md rounded my-6 overflow-x-auto">
+            <table class="min-w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                        <th class="py-3 px-6 text-left">Serial Number</th>
+                        <th class="py-3 px-6 text-left">Device Type</th>
+                        <th class="py-3 px-6 text-left">Brand & Model</th>
+                        <th class="py-3 px-6 text-center">Status</th>
+                        <th class="py-3 px-6 text-center">Date Added</th>
+                        <th class="py-3 px-6 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 text-sm font-light">
+                    <tr th:each="equip : ${equipments}" class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-6 text-left whitespace-nowrap font-medium" th:text="${equip.serialNumber}"></td>
+                        <td class="py-3 px-6 text-left" th:text="${equip.deviceType}"></td>
+                        <td class="py-3 px-6 text-left" th:text="${equip.brand + ' ' + equip.model}"></td>
+                        <td class="py-3 px-6 text-center">
+                            <span th:text="${equip.status}" class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs font-bold"></span>
+                        </td>
+                        <td class="py-3 px-6 text-center" th:text="${equip.dateAdded}"></td>
+                        <td class="py-3 px-6 text-center">
+                            <div class="flex item-center justify-center space-x-4">
+                                <a th:href="@{/equipment/edit/{id}(id=${equip.id})}" class="text-blue-500 hover:text-blue-700 font-bold transition">Edit</a>
+                                <a th:href="@{/equipment/delete/{id}(id=${equip.id})}" onclick="return confirm('Delete this equipment?');" class="text-red-500 hover:text-red-700 font-bold transition">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(equipments)}">
+                        <td colspan="6" class="py-8 px-6 text-center text-gray-500 italic text-lg">No equipment found matching your criteria.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

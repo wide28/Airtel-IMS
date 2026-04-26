@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IMS - Reports</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    <nav class="bg-blue-800 p-4 text-white flex justify-between items-center shadow-md hide-on-print">
+        <div class="flex items-center space-x-8">
+            <div class="text-xl font-bold border-r border-blue-600 pr-6">Airtel IMS</div>
+            <a th:href="@{/dashboard}" class="hover:text-blue-200 font-medium transition">Equipment</a>
+            <a th:href="@{/reports}" class="text-blue-200 font-bold border-b-2 border-blue-200">Reports</a>
+            <a th:href="@{/users}" class="hover:text-blue-200 font-medium transition">Admin Panel</a>
+        </div>
+        <div>
+            <a th:href="@{/login}" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm font-bold shadow transition">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-8 p-4">
+        
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold text-gray-800">Comprehensive Inventory Report</h2>
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow transition hide-on-print">
+                Print Report
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mt-8">
+            
+            <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-gray-800 text-center">
+                <p class="text-gray-500 text-sm uppercase font-bold mb-2">Total Equipment</p>
+                <h3 class="text-4xl font-bold text-gray-800" th:text="${total}">0</h3>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-green-500 text-center">
+                <p class="text-gray-500 text-sm uppercase font-bold mb-2">Available (In Stock)</p>
+                <h3 class="text-4xl font-bold text-green-600" th:text="${available}">0</h3>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500 text-center">
+                <p class="text-gray-500 text-sm uppercase font-bold mb-2">Assigned to Users</p>
+                <h3 class="text-4xl font-bold text-blue-600" th:text="${assigned}">0</h3>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-yellow-500 text-center">
+                <p class="text-gray-500 text-sm uppercase font-bold mb-2">In Maintenance</p>
+                <h3 class="text-4xl font-bold text-yellow-600" th:text="${maintenance}">0</h3>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-red-500 text-center">
+                <p class="text-gray-500 text-sm uppercase font-bold mb-2">Broken / Retired</p>
+                <h3 class="text-4xl font-bold text-red-600" th:text="${broken}">0</h3>
+            </div>
+
+        </div>
+    </div>
+
+    <style>
+        @media print {
+            .hide-on-print { display: none !important; }
+            body { background-color: white; }
+            .shadow-lg { box-shadow: none !important; border: 1px solid #ccc; }
+        }
+    </style>
+
+</body>
+</html>
